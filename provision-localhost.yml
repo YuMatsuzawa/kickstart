@@ -1,15 +1,11 @@
 - name: Install basic packages in Ubuntu
   hosts: localhost
   become: yes
-  vars_files:
-    - ./vars.yml
   tasks:
     - apt: name={{ packages }} update_cache=yes state=latest
 
 - name: Install rbenv and ruby
   hosts: localhost
-  vars_files:
-    - ./vars.yml
   vars:
     rbenv:
       env: user
@@ -22,8 +18,6 @@
 
 - name: Setup dotfile
   hosts: localhost
-  vars_files:
-    - ./vars.yml
   user: "{{ username }}"
   tasks:
     - git: repo=https://github.com/YuMatsuzawa/dotfile.git dest=/home/{{ username }}/dotfile accept_hostkey=yes
@@ -36,8 +30,6 @@
 
 - name: Install NeoBundle
   hosts: localhost
-  vars_files:
-    - ./vars.yml
   user: "{{ username }}"
   tasks:
     - get_url: url=https://raw.githubusercontent.com/Shougo/neobundle.vim/master/bin/install.sh dest=/home/{{ username }}
@@ -47,8 +39,6 @@
 
 - name: Install git-aware-prompt
   hosts: localhost
-  vars_files:
-    - ./vars.yml
   user: "{{ username }}"
   tasks:
     - file: dest=/home/{{ username }}/.bash state=directory

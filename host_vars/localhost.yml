@@ -1,0 +1,6 @@
+---
+username: yumatsuzawa
+packages:
+  - git
+  - vim
+  - openssl
