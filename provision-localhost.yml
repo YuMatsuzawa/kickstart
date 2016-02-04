@@ -1,17 +1,59 @@
 - name: Install basic packages in Ubuntu
   hosts: localhost
-  connection: local
   become: yes
   vars_files:
-    - ./packages.yml
+    - ./vars.yml
   tasks:
     - apt: name={{ packages }} update_cache=yes state=latest
 
-- name: Install Ansible
+- name: Install rbenv and ruby
   hosts: localhost
-  connection: local
+  vars_files:
+    - ./vars.yml
+  vars:
+    rbenv:
+      env: user
+      version: v1.0.0
+      ruby_version: 2.3.0
+  roles:
+    - role: zzet.rbenv
+      rbenv_users:
+        - "{{ username }}"
+
+- name: Setup dotfile
+  hosts: localhost
+  vars_files:
+    - ./vars.yml
+  user: "{{ username }}"
+  tasks:
+    - git: repo=https://github.com/YuMatsuzawa/dotfile.git dest=/home/{{ username }}/dotfile accept_hostkey=yes
+    - file: dest=/home/{{ username }}/.bashrc state=file
+    - lineinfile: dest=/home/{{ username }}/.bashrc line='source ~/dotfile/bashrc' state=present
+    - file: dest=/home/{{ username }}/.vimrc state=file
+    - lineinfile: dest=/home/{{ username }}/.vimrc line='source ~/dotfile/vimrc' state=present
+    - file: dest=/home/{{ username }}/.inputrc state=file
+    - lineinfile: dest=/home/{{ username }}/.inputrc line='$include ~/dotfile/inputrc' state=present
+
+- name: Install NeoBundle
+  hosts: localhost
+  vars_files:
+    - ./vars.yml
+  user: "{{ username }}"
+  tasks:
+    - get_url: url=https://raw.githubusercontent.com/Shougo/neobundle.vim/master/bin/install.sh dest=/home/{{ username }}
+    - shell: sh /home/{{ username }}/install.sh
+
+- name: Install git-aware-prompt
+  hosts: localhost
+  vars_files:
+    - ./vars.yml
+  user: "{{ username }}"
+  tasks:
+    - file: dest=/home/{{ username }}/.bash state=directory
+    - git: repo=https://github.com/jimeh/git-aware-prompt.git dest=/home/{{ username }}/.bash/git-aware-prompt update=yes
+
+- name: Install completion-ruby
+  hosts: localhost
   become: yes
   tasks:
-    - apt: name=software-properties-common state=latest
-    - apt_repository: repo='ppa:ansible/ansible' state=present
-    - apt: name=ansible update_cache=yes state=latest
+    - git: repo=https://github.com/mernen/completion-ruby.git dest=/usr/local/etc/completion-ruby update=yes
