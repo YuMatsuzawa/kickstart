@@ -1,8 +1,17 @@
 - name: Install basic packages in Ubuntu
   hosts: localhost
   connection: local
-  sudo: yes
+  become: yes
   vars_files:
     - ./packages.yml
   tasks:
     - apt: name={{ packages }} update_cache=yes state=latest
+
+- name: Install Ansible
+  hosts: localhost
+  connection: local
+  become: yes
+  tasks:
+    - apt: name=software-properties-common state=latest
+    - apt_repository: repo='ppa:ansible/ansible' state=present
+    - apt: name=ansible update_cache=yes state=latest
