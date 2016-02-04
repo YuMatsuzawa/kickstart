@@ -42,6 +42,8 @@
   tasks:
     - get_url: url=https://raw.githubusercontent.com/Shougo/neobundle.vim/master/bin/install.sh dest=/home/{{ username }}
     - shell: sh /home/{{ username }}/install.sh
+      register: ret
+      changed_when: ret.rc != 0
 
 - name: Install git-aware-prompt
   hosts: localhost
