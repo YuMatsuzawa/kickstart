@@ -1,0 +1,8 @@
+- name: Install basic packages in Ubuntu
+  hosts: localhost
+  connection: local
+  sudo: yes
+  vars_files:
+    - ./packages.yml
+  tasks:
+    - apt: name={{ packages }} update_cache=yes state=latest
