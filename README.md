@@ -1,11 +1,11 @@
 # kickstart
 
-Ansible Playbook to initialize Ubuntu environment.
+Ansible Playbook to initialize Ubuntu localhost.
 
 ## Requirements
 
 * Ubuntu installed (tested on 14.04 LTS)
-* sudoer user (put the name as `username` var in `vars.yml`)
+* sudoer user (put the name as `username` var in `host_vars/localhost.yml`)
     * Recommend passwordless sudoer
     * `git` operations are done via https so key pair is not required.
 * Git
@@ -14,7 +14,7 @@ Ansible Playbook to initialize Ubuntu environment.
 
 ## Description
 
-Do
+Do this:
 
 ```shell
 $ ansible-playbook -i hosts provision-localhost.yml
@@ -22,7 +22,7 @@ $ ansible-playbook -i hosts provision-localhost.yml
 
 In the playbook, provisioning is performed on `localhost`. This does not requires SSH at all.
 
-`hosts` file is just a dummy here. Of course you can expand its use beyond localhost.
+`hosts` file is just a dummy here. Of course you can expand its use beyond `localhost`.
 
 ## Vagrant?
 
