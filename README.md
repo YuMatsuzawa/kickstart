@@ -27,3 +27,9 @@ In the playbook, provisioning is performed on `localhost`. This does not require
 ## Vagrant?
 
 Combine this with [Vagrant](https://www.vagrantup.com/) is very nice idea.
+
+In that case, let Vagrant open SSH port in the target instance or virtual machine, then perform the Playbook via SSH.
+
+Define host group and put that in `hosts:` directive.
+
+And remember to put your public key to `authorized_keys` of the target remote user.
