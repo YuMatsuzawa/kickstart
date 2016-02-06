@@ -20,7 +20,7 @@ Do this:
 $ ansible-playbook -i hosts provision-localhost.yml
 ```
 
-In the playbook, provisioning is performed on `localhost`. This does not requires SSH at all.
+In the playbook, provisioning is performed on `localhost`. This does not require SSH at all.
 
 `hosts` file is just a dummy here. Of course you can expand its use beyond `localhost`.
 
